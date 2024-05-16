@@ -1,14 +1,14 @@
-import React from 'react'
-import './App.css'
+import { Container } from './App.styles'
+import DataTable from './components/dataTable/DataTable'
+import Header from './components/header/Header'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Test</h1>
-      </header>
-    </div>
-  );
+    <Container>
+        <Header />
+      <DataTable />
+    </Container>
+  )
 }
 
-export default App;
+export default App
