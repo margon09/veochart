@@ -1,11 +1,8 @@
 import {
-  BallIconContainer,
-  BallIconStyled,
   RightArrowIcon,
   LeftArrowIcon,
   ScrollIconContainer,
 } from './ScrollIcon.styles'
-import Ball from '../../svgComponents/Ball'
 
 interface Props {
   onClick: () => void
@@ -18,12 +15,7 @@ const ScrollIcon = ({ onClick, isVisible, direction }: Props) => {
 
   return (
     <ScrollIconContainer onClick={onClick} direction={direction}>
-      <BallIconContainer>
-        <BallIconStyled>
-          <Ball />
-        </BallIconStyled>
-        {direction !== 'none' && (direction === 'right' ? <RightArrowIcon /> : <LeftArrowIcon />)}
-      </BallIconContainer>
+      {direction !== 'none' && (direction === 'right' ? <RightArrowIcon /> : <LeftArrowIcon />)}
     </ScrollIconContainer>
   )
 }

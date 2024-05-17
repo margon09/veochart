@@ -6,41 +6,25 @@ interface ScrollIconContainerProps {
 }
 
 export const ScrollIconContainer = styled.div<ScrollIconContainerProps>`
+  /* height: 100vh; */
+  width: 12.5%;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 10;
-`
-
-export const BallIconContainer = styled.div`
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
 
-export const BallIconStyled = styled.div`
-  width: 66px;
-  height: 66px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0.35;
-
-  svg {
-    width: 100%;
-    height: 100%;
-  }
+  /* margin-top: calc(100vh - 50vh + 10rem); */
 `
 
 export const RightArrowIcon = styled(RiArrowRightSLine)`
   position: absolute;
-  left: 25px;
+  left: 10px;
   font-size: 36px;
 `
 
 export const LeftArrowIcon = styled(RiArrowLeftSLine)`
   position: absolute;
-  right: 25px;
+  right: 10px;
   font-size: 36px;
 `
