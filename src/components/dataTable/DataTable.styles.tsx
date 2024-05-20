@@ -21,19 +21,20 @@ export const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
   margin-top: 2rem;
+  font-size: 1rem;
+
+  thead {
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+  }
 
   ${({ theme }) => theme.mediaQueries.phone} {
     margin-top: 0.5rem;
-    font-size: 0.7rem;
-  }
-  ${({ theme }) => theme.mediaQueries.miniTablet} {
-    font-size: 0.8rem;
-  }
-  ${({ theme }) => theme.mediaQueries.tablet} {
-    font-size: 0.9rem;
-  }
-  ${({ theme }) => theme.mediaQueries.laptop} {
-    font-size: 1rem;
+    font-size: 0.75rem;
+
+    thead {
+      font-size: 0.95rem;
+    }
   }
 `
 

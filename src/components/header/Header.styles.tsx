@@ -21,11 +21,14 @@ export const FiltersContainer = styled.div<FiltersContainerProps>`
   opacity: ${props => (props.open ? '1' : '0')};
   overflow: ${props => (props.open ? 'visible' : 'hidden')};
   transition: height 0.7s ease-in-out, opacity 0.7s ease-in-out;
-  z-index: 100;
 
   ${({ theme }) => theme.mediaQueries.phone} {
     flex-direction: column;
     align-items: flex-start;
+
+    :nth-child(1) {
+      z-index: 100;
+    }
   }
   ${({ theme }) => theme.mediaQueries.miniTablet} {
     flex-direction: column;

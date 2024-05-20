@@ -18,7 +18,7 @@ const Header = () => {
   const isDesktop = width >= 768
   
   const { handleIconClick, canScrollLeft, canScrollRight } = useScrollContext()
-  const { setChartType } = useChartType()
+  const { setChartType, chartType } = useChartType()
 
   const [openFilters, setOpenFilters] = useState(false)
 
@@ -40,7 +40,7 @@ const Header = () => {
 
         {isDesktop && (
           <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <div style={{ display: 'flex', flexDirection: 'row', marginRight: '1rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'row', marginRight: '1rem'}}>
               <ChartType options={['Table', 'Radial']} onSelect={handleChartTypeSelect} />
             </div>
             <GameType options={categories} />
@@ -60,7 +60,7 @@ const Header = () => {
         </FiltersContainer>
       )}
 
-      {isMobile && (
+      {(isMobile && chartType === 'Table') && (
         <ArrowContainer>
           <ScrollIcon
             onClick={() => handleIconClick('left')}

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const DropdownContainer = styled.div`
   position: relative;
   width: 200px;
-  
+
   ${({ theme }) => theme.mediaQueries.phone} {
     width: 100%;
     margin-bottom: 1rem;
@@ -24,7 +24,7 @@ export const DropdownButton = styled.button`
   border: 1px solid ${({ theme }) => theme.colors.borders};
   border-radius: ${({ theme }) => theme.borderRadius};
   cursor: pointer;
-`
+  `
 
 export const ButtonContent = styled.div`
   display: flex;
@@ -32,6 +32,9 @@ export const ButtonContent = styled.div`
   align-items: center;
   width: 100%;
   height: 2rem;
+  font-size: 1rem;
+  font-family: Helvetica, sans-serif;
+  z-index: 99 !important;
 `
 
 export const DropdownList = styled.ul`
@@ -43,7 +46,7 @@ export const DropdownList = styled.ul`
   margin: 0;
   box-shadow: 0px 8px 16px 0px ${({ theme }) => theme.boxShadow};
 
-  z-index: 100;
+  z-index: 2;
   max-height: 200px;
   overflow-y: auto;
   border-radius: 4px;
