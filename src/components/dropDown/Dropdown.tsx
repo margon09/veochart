@@ -4,6 +4,7 @@ import {
   DropdownContainer,
   DropdownList,
   DropdownListItem,
+  ButtonContent
 } from './Dropdown.styles'
 
 interface Props {
@@ -31,7 +32,9 @@ const Dropdown = ({
 
   return (
     <DropdownContainer>
-      <DropdownButton onClick={toggleDropdown}>{renderButtonContent()}</DropdownButton>
+      <DropdownButton onClick={toggleDropdown}>
+        <ButtonContent>{renderButtonContent()}</ButtonContent>
+      </DropdownButton>
       {isOpen && (
         <DropdownList>
           {options.map(option => (

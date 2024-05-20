@@ -1,11 +1,7 @@
-import {
-  TableContainer,
-  Table,
-  TableHeader,
-  TableCell
-} from './DataTable.styles'
+import { TableContainer, Table, TableHeader, TableCell } from './DataTable.styles'
 import { matchData } from '../../data/matchData'
 import useScrollContext from '../../hooks/useScrollContext'
+import useGameType from '../../hooks/useGameType'
 
 interface MatchData {
   date: string
@@ -20,17 +16,14 @@ interface MatchData {
 
 const DataTable = () => {
   const { tableContainerRef } = useScrollContext()
-
-  const keys = Object.keys(
-    matchData[0],
-  ) as (keyof MatchData)[]
+  const { selectedGameTypes } = useGameType()
 
   return (
     <TableContainer ref={tableContainerRef}>
       <Table>
         <thead>
           <tr>
-            {keys.map(key => (
+            {['date', ...selectedGameTypes.filter(k => k !== 'Select all')].map(key => (
               <TableHeader key={key}>{key.charAt(0).toUpperCase() + key.slice(1)}</TableHeader>
             ))}
           </tr>
@@ -38,8 +31,12 @@ const DataTable = () => {
         <tbody>
           {matchData.map((row, index) => (
             <tr key={index}>
-              {keys.map(key => (
-                <TableCell key={key}>{row[key]}</TableCell>
+              {['date', ...selectedGameTypes.filter(k => k !== 'Select all')].map(key => (
+                <TableCell key={key}>
+                  {key !== 'possession'
+                    ? row[key as keyof MatchData]
+                    : row[key as keyof MatchData] + '%'}
+                </TableCell>
               ))}
             </tr>
           ))}

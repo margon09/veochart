@@ -6,7 +6,7 @@ interface FiltersContainerProps {
 
 export const HeaderContainer = styled.header`
   width: 100%;
-  height: 5rem;
+  height: 6.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -22,6 +22,15 @@ export const FiltersContainer = styled.div<FiltersContainerProps>`
   overflow: ${props => (props.open ? 'visible' : 'hidden')};
   transition: height 0.7s ease-in-out, opacity 0.7s ease-in-out;
   z-index: 100;
+
+  ${({ theme }) => theme.mediaQueries.phone} {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  ${({ theme }) => theme.mediaQueries.miniTablet} {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `
 
 export const IconBox = styled.div`
@@ -43,15 +52,10 @@ export const IconBox = styled.div`
   }
 `
 export const ArrowContainer = styled.div`
-  width: 100%;
-  height: 5rem;
+  width: 130%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: absolute;
-  top: 30%;
-
-  svg {
-    opacity: 0.4;
-  }
+  position: sticky;
+  top: 50%;
 `

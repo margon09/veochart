@@ -19,9 +19,6 @@ export default createGlobalStyle`
     vertical-align: baseline;
     line-height: 1.25;
     background: ${({ theme }) => theme.colors.white};
-
-    /* ${({ theme }) => theme.mediaQueries.phone} {
-    } */
   }
 
   h1, h2, h3 {

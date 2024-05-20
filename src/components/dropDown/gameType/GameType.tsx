@@ -1,47 +1,60 @@
-import { useState } from 'react'
+import { useEffect, useMemo } from 'react'
+import useGameType from '../../../hooks/useGameType'
+import useWindowSize from '../../../hooks/useWIndowSize'
 import Dropdown from '../Dropdown'
 import { Checkbox, CheckboxContainer } from '../Dropdown.styles'
-import useWindowSize from '../../../hooks/useWIndowSize'
 
 const GameType = ({ options }: { options: string[] }) => {
   const { width } = useWindowSize()
   const isMobile = width < 599
 
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([])
+  const { selectedGameTypes, setSelectedGameTypes } = useGameType()
+
+  const allOptions = useMemo(() => ['Select all', ...options], [options])
+
+  useEffect(() => {
+    setSelectedGameTypes(allOptions)
+  }, [setSelectedGameTypes, allOptions])
 
   const handleOptionChange = (option: string) => {
-    const newSelectedOptions = selectedOptions.includes(option)
-      ? selectedOptions.filter(o => o !== option)
-      : [...selectedOptions, option]
-    setSelectedOptions(newSelectedOptions)
-  }
-
-  const renderButtonContent = () => {
-    if (selectedOptions.length === 0) {
-      return isMobile ? 'Plays' : 'Select plays'
-    } else if (isMobile) {
-      return selectedOptions.length > 1 ? `${selectedOptions[0]}...` : selectedOptions[0]
+    if (option === 'Select all') {
+      if (selectedGameTypes.includes('Select all')) {
+        setSelectedGameTypes([])
+      } else {
+        setSelectedGameTypes(allOptions)
+      }
     } else {
-      return selectedOptions.length > 2
-        ? `${selectedOptions.slice(0, 2).join(', ')}...`
-        : selectedOptions.join(', ')
+      const newSelectedOptions = selectedGameTypes.includes(option)
+        ? selectedGameTypes.filter(o => o !== option)
+        : [...selectedGameTypes, option]
+
+      if (newSelectedOptions.length === options.length) {
+        setSelectedGameTypes(allOptions)
+      } else {
+        setSelectedGameTypes(newSelectedOptions.filter(o => o !== 'Select all'))
+      }
     }
   }
 
+  const renderButtonContent = () => {
+    return isMobile ? 'Plays' : 'Select plays'
+  }
+
   return (
-    <Dropdown
-      options={options}
-      selectedOptions={selectedOptions}
-      onOptionChange={handleOptionChange}
-      renderItem={(option, isSelected, onSelect) => (
-        <CheckboxContainer onClick={e => e.stopPropagation()}>
-          <Checkbox type='checkbox' checked={isSelected} onChange={() => onSelect(option)} />
-          <span>{option}</span>
-        </CheckboxContainer>
-      )}
-      // renderButtonContent={() => selectedOptions.join(', ') || 'Select options'}
-      renderButtonContent={renderButtonContent}
-    />
+    <>
+      <Dropdown
+        options={allOptions}
+        selectedOptions={selectedGameTypes}
+        onOptionChange={handleOptionChange}
+        renderItem={(option, isSelected, onSelect) => (
+          <CheckboxContainer onClick={e => e.stopPropagation()}>
+            <Checkbox type='checkbox' checked={isSelected} onChange={() => onSelect(option)} />
+            <span>{option}</span>
+          </CheckboxContainer>
+        )}
+        renderButtonContent={renderButtonContent}
+      />
+    </>
   )
 }
 

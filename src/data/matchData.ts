@@ -7,7 +7,7 @@ export const matchData = [
     scored: 4,
     corners: 5,
     freeKicks: 10,
-    possession: '50%',
+    possession: 50,
   },
   {
     date: '2024-02-15',
@@ -17,7 +17,7 @@ export const matchData = [
     scored: 2,
     corners: 8,
     freeKicks: 15,
-    possession: '55%',
+    possession: 55,
   },
   {
     date: '2024-03-01',
@@ -27,7 +27,7 @@ export const matchData = [
     scored: 3,
     corners: 4,
     freeKicks: 8,
-    possession: '42%',
+    possession: 42,
   },
   {
     date: '2024-03-15',
@@ -37,7 +37,7 @@ export const matchData = [
     scored: 1,
     corners: 6,
     freeKicks: 18,
-    possession: '60%',
+    possession: 60,
   },
   {
     date: '2024-03-29',
@@ -47,7 +47,7 @@ export const matchData = [
     scored: 5,
     corners: 3,
     freeKicks: 12,
-    possession: '48%',
+    possession: 48,
   },
   {
     date: '2024-04-12',
@@ -57,7 +57,7 @@ export const matchData = [
     scored: 2,
     corners: 9,
     freeKicks: 7,
-    possession: '63%',
+    possession: 63,
   },
   {
     date: '2024-04-01',
@@ -67,7 +67,7 @@ export const matchData = [
     scored: 3,
     corners: 2,
     freeKicks: 20,
-    possession: '58%',
+    possession: 58,
   },
   {
     date: '2024-04-05',
@@ -77,7 +77,7 @@ export const matchData = [
     scored: 4,
     corners: 10,
     freeKicks: 9,
-    possession: '45%',
+    possession: 45,
   },
   {
     date: '2024-04-09',
@@ -87,7 +87,7 @@ export const matchData = [
     scored: 6,
     corners: 7,
     freeKicks: 5,
-    possession: '52%',
+    possession: 52,
   },
   {
     date: '2024-04-21',
@@ -97,6 +97,6 @@ export const matchData = [
     scored: 0,
     corners: 6,
     freeKicks: 14,
-    possession: '60%',
+    possession: 60,
   },
 ]

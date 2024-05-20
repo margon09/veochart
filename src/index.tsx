@@ -7,6 +7,7 @@ import { theme } from './global/Theme'
 import GlobalStyle from './global/GlobalStyles'
 import { ScrollProvider } from './context/ScrollContext'
 import { ChartTypeProvider } from './context/ChartTypeContext'
+import { GameTypeProvider } from './context/GameTypeContext'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
@@ -14,9 +15,11 @@ root.render(
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <ChartTypeProvider>
-        <ScrollProvider>
-          <App />
-        </ScrollProvider>
+        <GameTypeProvider>
+            <ScrollProvider>
+              <App />
+            </ScrollProvider>
+        </GameTypeProvider>
       </ChartTypeProvider>
     </ThemeProvider>
   </React.StrictMode>,

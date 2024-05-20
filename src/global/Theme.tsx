@@ -9,17 +9,14 @@ const breakpoints = [
 
 export const theme = {
   borderRadius: '4px',
-  boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+  boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
   colors: {
     white: '#ffffff',
     black: '#000',
-    formBackground: '#f2f4f5;',
+    header: '#f9f9f9;',
     borders: '#ccc',
-    placeholder: '#9d9d9d',
-    activeInput: '#001965',
-    danger: '#bb2124',
-    cardBackground: '#d3dcdf',
-    infoCardBackground: '#001965;',
+    arrowColor: '#001a63;',
+    checkBox: '#00287f;',
   },
   breakpoints,
   mediaQueries: {

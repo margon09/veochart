@@ -3,38 +3,50 @@ import styled from 'styled-components'
 export const DropdownContainer = styled.div`
   position: relative;
   width: 200px;
-
+  
   ${({ theme }) => theme.mediaQueries.phone} {
-    min-width: 130px;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  ${({ theme }) => theme.mediaQueries.miniTablet} {
+    width: 100%;
+    margin-bottom: 1rem;
   }
 `
 
-export const DropdownButton = styled.div`
-  padding: 10px;
-  background-color: #f2f4f5;
-  border: 1px solid #ccc;
+export const DropdownButton = styled.button`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px;
+  background-color: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.borders};
+  border-radius: ${({ theme }) => theme.borderRadius};
   cursor: pointer;
-  user-select: none;
-  border-radius: 4px;
-  margin-right: 0.5rem;
+`
+
+export const ButtonContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 2rem;
 `
 
 export const DropdownList = styled.ul`
   position: absolute;
   width: 100%;
   background: white;
-  border: 1px solid #ccc;
+  border: 1px solid ${({ theme }) => theme.colors.borders};
   padding: 0;
   margin: 0;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 8px 16px 0px ${({ theme }) => theme.boxShadow};
+
   z-index: 100;
   max-height: 200px;
   overflow-y: auto;
   border-radius: 4px;
-
-  ${({ theme }) => theme.mediaQueries.phone} {
-    width: calc(100% - 0.5rem);
-  }
 `
 
 export const DropdownListItem = styled.li`
@@ -42,7 +54,7 @@ export const DropdownListItem = styled.li`
   padding: 10px;
   cursor: pointer;
   &:hover {
-    background-color: #f9f9f9;
+    background-color: ${({ theme }) => theme.colors.header};
   }
 `
 
@@ -50,16 +62,11 @@ export const CheckboxContainer = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
+  /* color: #333743; */
 `
 
 export const Checkbox = styled.input`
   margin-right: 10px;
   cursor: pointer;
-  accent-color: #0023ae;
-`
-
-export const CheckboxLabel = styled.span`
-  font-size: 16px;
-  color: #333;
-  user-select: none;
+  accent-color: ${({ theme }) => theme.colors.checkBox};
 `

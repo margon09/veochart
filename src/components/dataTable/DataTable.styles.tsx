@@ -9,13 +9,21 @@ export const TableContainer = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+
+  ${({ theme }) => theme.mediaQueries.phone} {
+    margin-top: 2rem;
+  }
+  ${({ theme }) => theme.mediaQueries.miniTablet} {
+    margin-top: 1rem;
+  }
 `
 export const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin-top: 2rem;
 
   ${({ theme }) => theme.mediaQueries.phone} {
+    margin-top: 0.5rem;
     font-size: 0.7rem;
   }
   ${({ theme }) => theme.mediaQueries.miniTablet} {
@@ -32,8 +40,7 @@ export const Table = styled.table`
 export const TableHeader = styled.th`
   border: 1px solid ${({ theme }) => theme.colors.borders};
   padding: 8px;
-  background-color: ${({ theme }) =>
-    theme.colors.formBackground};
+  background-color: ${({ theme }) => theme.colors.header};
 
   ${({ theme }) => theme.mediaQueries.phone} {
     padding: 6px;
