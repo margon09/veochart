@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.js": "/static/js/main.12a9aab9.js",
+    "static/js/850.2d815884.chunk.js": "/static/js/850.2d815884.chunk.js",
+    "static/js/453.375ce15d.chunk.js": "/static/js/453.375ce15d.chunk.js",
+    "static/js/487.f207f763.chunk.js": "/static/js/487.f207f763.chunk.js",
+    "static/media/goal.png": "/static/media/goal.ed15f54060ff4989abce.png",
+    "static/media/Soccerball.svg": "/static/media/Soccerball.145e456a22b5d9ecf94225259100fc24.svg",
+    "static/media/filter-32.svg": "/static/media/filter-32.2b3570f0cc83a27ebc8b166c45fbb4fb.svg",
+    "index.html": "/index.html",
+    "main.12a9aab9.js.map": "/static/js/main.12a9aab9.js.map",
+    "850.2d815884.chunk.js.map": "/static/js/850.2d815884.chunk.js.map",
+    "453.375ce15d.chunk.js.map": "/static/js/453.375ce15d.chunk.js.map",
+    "487.f207f763.chunk.js.map": "/static/js/487.f207f763.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.12a9aab9.js"
+  ]
+}

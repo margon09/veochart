@@ -2,6 +2,8 @@
 
 Data visualization and presentation
 
+Site is available at https://veochart.vercel.app/
+
 ## Description
 
 VeoChart is a web application built with ReactJS and TypeScript that visualizes data using graphical
