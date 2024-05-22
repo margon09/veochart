@@ -12,7 +12,7 @@ export const ScrollIconContainer = styled.div<ScrollIconContainerProps>`
   justify-content: center;
   align-items: center;
   position: relative;
-  opacity: ${({ $canScroll }) => ($canScroll ? 0.7 : 0.2)};
+  opacity: ${({ $canScroll }) => ($canScroll ? 1 : 0.5)};
   z-index: 10;
 `
 
@@ -20,12 +20,12 @@ export const RightArrowIcon = styled(RiArrowRightSLine)`
   position: absolute;
   left: 10px;
   font-size: 36px;
-  fill: ${({ theme }) => theme.colors.arrowColor};
+  fill: ${({ theme }) => theme.colors.green};
 `
 
 export const LeftArrowIcon = styled(RiArrowLeftSLine)`
   position: absolute;
   right: 10px;
   font-size: 36px;
-  fill: ${({ theme }) => theme.colors.arrowColor};
+  fill: ${({ theme }) => theme.colors.green};
 `

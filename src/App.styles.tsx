@@ -1,18 +1,33 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  height: auto;
+height: auto;
+padding: 0 3rem;
+display: flex;
+flex-direction: column;
+align-items: center;
+
+${({ theme }) => theme.mediaQueries.phone} {
+  padding-top: 0 2rem;
+}
+`
+export const HeaderContainer = styled.div`
+  width: 100%;
+  padding: 1rem 3rem;
+  background-color: ${({ theme }) => theme.colors.green};
+
+  ${({ theme }) => theme.mediaQueries.phone} {
+    padding: 3rem;
+  }
+`
+export const ChartContainer = styled.div`
+width: 100%;
   padding: 3rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
 
   ${({ theme }) => theme.mediaQueries.phone} {
     padding-top: 2rem;
   }
 `
-
 
 export const SpinnerContainer = styled.div`
   width: 100%;

@@ -15,8 +15,8 @@ export const theme = {
     black: '#000',
     header: '#f9f9f9;',
     borders: '#ccc',
-    arrowColor: '#001a63;',
     checkBox: '#00287f;',
+    green: '#146903',
   },
   breakpoints,
   mediaQueries: {

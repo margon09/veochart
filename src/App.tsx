@@ -1,5 +1,10 @@
 import { Suspense, lazy, memo } from 'react'
-import { Container, SpinnerContainer } from './App.styles'
+import {
+  ChartContainer,
+  Container,
+  HeaderContainer,
+  SpinnerContainer
+} from './App.styles'
 import DataTable from './components/dataTable/DataTable'
 import Header from './components/header/Header'
 import useChartType from './hooks/useChartType'
@@ -12,20 +17,24 @@ const App = memo(() => {
 
   return (
     <Container>
-      <Header />
-      {chartType === 'Table' ? (
-        <DataTable />
-      ) : (
-        <Suspense
-          fallback={
-            <SpinnerContainer data-cy='loading-spinner' data-testid='loading-spinner'>
-              <ImSpinner />
-            </SpinnerContainer>
-          }
-        >
-          <LazyDataRadar />
-        </Suspense>
-      )}
+      <HeaderContainer >
+          <Header />
+      </HeaderContainer>
+      <ChartContainer>
+        {chartType === 'Table' ? (
+          <DataTable />
+        ) : (
+          <Suspense
+            fallback={
+              <SpinnerContainer data-cy='loading-spinner' data-testid='loading-spinner'>
+                <ImSpinner />
+              </SpinnerContainer>
+            }
+          >
+            <LazyDataRadar />
+          </Suspense>
+        )}
+      </ChartContainer>
     </Container>
   )
 })

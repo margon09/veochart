@@ -16,7 +16,7 @@ export const RadialChartContainer = styled.div`
 
   @media (max-width: 599px) {
     height: 500px;
-    margin-top: 0;
+    margin-top: 0rem;
     padding: 0;
   }
 

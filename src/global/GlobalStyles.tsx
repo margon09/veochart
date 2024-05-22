@@ -13,7 +13,6 @@ export default createGlobalStyle`
     margin: 0;
     padding: 0;
     width: 100%;
-    min-height: 100vh;
     font-size: 100%; 
     font-family: Arial, sans-serif;
     vertical-align: baseline;

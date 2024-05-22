@@ -14,8 +14,13 @@ const FilterIcon = () => {
         style={{
           width: '1.9rem',
           marginLeft: '8px',
-          fill: '#001a63',
-          opacity: opened ? 0.7 : 0.3,
+          // fill: '#001a63',
+          fill: '#FFF',
+          // opacity: opened ? 0.7 : 0.3,
+          opacity: opened ? 1 : 0.5,
+          position: 'absolute',
+          top: '2rem',
+          right: '3rem',
         }}
         onClick={handleIconClick}
       />
