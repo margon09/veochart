@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { TableContainer, Table, TableHeader, TableCell } from './DataTable.styles'
 import { matchData } from '../../data/matchData'
 import useScrollContext from '../../hooks/useScrollContext'
@@ -18,12 +19,17 @@ const DataTable = () => {
   const { tableContainerRef } = useScrollContext()
   const { selectedGameTypes } = useGameType()
 
+  const headers = useMemo(
+    () => ['date', ...selectedGameTypes.filter(k => k !== 'Select all')],
+    [selectedGameTypes],
+  )
+
   return (
     <TableContainer ref={tableContainerRef}>
       <Table>
         <thead>
           <tr>
-            {['date', ...selectedGameTypes.filter(k => k !== 'Select all')].map(key => (
+            {headers.map(key => (
               <TableHeader key={key}>{key.charAt(0).toUpperCase() + key.slice(1)}</TableHeader>
             ))}
           </tr>
@@ -31,7 +37,7 @@ const DataTable = () => {
         <tbody>
           {matchData.map((row, index) => (
             <tr key={index}>
-              {['date', ...selectedGameTypes.filter(k => k !== 'Select all')].map(key => (
+              {headers.map(key => (
                 <TableCell key={key}>
                   {key !== 'possession'
                     ? row[key as keyof MatchData]

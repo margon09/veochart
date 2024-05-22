@@ -1,12 +1,4 @@
-import {
-  ReactNode,
-  RefObject,
-  createContext,
-  useEffect,
-  useRef,
-  useState,
-  useCallback,
-} from 'react'
+import { ReactNode, RefObject, createContext, useRef, useState } from 'react'
 
 interface Props {
   children: ReactNode
@@ -14,70 +6,55 @@ interface Props {
 
 interface ScrollContextType {
   tableContainerRef: RefObject<HTMLDivElement>
-  handleIconClick: (direction: 'left' | 'right' | 'none') => void
+  handleIconClick: (direction: 'left' | 'right') => void
   canScrollLeft: boolean
   canScrollRight: boolean
+  resetScroll: () => void
 }
 
 const ScrollContext = createContext<ScrollContextType | undefined>(undefined)
 
 export const ScrollProvider = ({ children }: Props) => {
   const tableContainerRef = useRef<HTMLDivElement>(null)
-
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
-  const [initialScrollCheckDone, setInitialScrollCheckDone] = useState(false)
 
-  const handleScroll = useCallback(() => {
+  const handleIconClick = (direction: 'left' | 'right') => {
     if (tableContainerRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = tableContainerRef.current
-      setCanScrollLeft(scrollLeft > 0)
-
-      if (!initialScrollCheckDone) {
+      if (direction === 'right') {
+        tableContainerRef.current.scrollTo({
+          left: tableContainerRef.current.scrollWidth,
+          behavior: 'smooth',
+        })
+        setCanScrollLeft(true)
+        setCanScrollRight(false)
+      } else if (direction === 'left') {
+        tableContainerRef.current.scrollTo({
+          left: 0,
+          behavior: 'smooth',
+        })
+        setCanScrollLeft(false)
         setCanScrollRight(true)
-        setInitialScrollCheckDone(true)
-      } else {
-        setCanScrollRight(scrollLeft + clientWidth < scrollWidth)
       }
-
-    }
-  }, [initialScrollCheckDone])
-
-  const handleIconClick = (direction: 'left' | 'right' | 'none') => {
-    if (tableContainerRef.current && direction !== 'none') {
-      tableContainerRef.current.scrollTo({
-        left: direction === 'right' ? tableContainerRef.current.scrollWidth : 0,
-        behavior: 'smooth',
-      })
     }
   }
 
-  useEffect(() => {
-    const currentRef = tableContainerRef.current
-    if (currentRef) {
-      handleScroll()
-      currentRef.addEventListener('scroll', handleScroll)
+  const resetScroll = () => {
+    if (tableContainerRef.current) {
+      tableContainerRef.current.scrollLeft = 0
+      setCanScrollLeft(false)
+      setCanScrollRight(true)
     }
-    return () => {
-      if (currentRef) {
-        currentRef.removeEventListener('scroll', handleScroll)
-      }
-    }
-  }, [handleScroll])
-
-  useEffect(() => {
-  }, [canScrollRight])
+  }
 
   return (
     <ScrollContext.Provider
-      value={{ tableContainerRef, handleIconClick, canScrollLeft, canScrollRight }}
+      value={{ tableContainerRef, handleIconClick, canScrollLeft, canScrollRight, resetScroll }}
     >
       {children}
     </ScrollContext.Provider>
   )
 }
 
+export { ScrollContext }
 export default ScrollContext
-
-
-

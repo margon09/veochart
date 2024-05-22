@@ -1,18 +1,33 @@
-import { Container } from './App.styles'
+import { Suspense, lazy, memo } from 'react'
+import { Container, SpinnerContainer } from './App.styles'
 import DataTable from './components/dataTable/DataTable'
 import Header from './components/header/Header'
-import DataRadar from './components/dataRadar/DataRadar'
 import useChartType from './hooks/useChartType'
+import { ImSpinner } from 'react-icons/im'
 
-function App() {
+const LazyDataRadar = lazy(() => import('./components/dataRadar/DataRadar'))
+
+const App = memo(() => {
   const { chartType } = useChartType()
-  
+
   return (
     <Container>
       <Header />
-      {chartType === 'Table' ? <DataTable /> : <DataRadar />}
+      {chartType === 'Table' ? (
+        <DataTable />
+      ) : (
+        <Suspense
+          fallback={
+            <SpinnerContainer data-cy='loading-spinner' data-testid='loading-spinner'>
+              <ImSpinner />
+            </SpinnerContainer>
+          }
+        >
+          <LazyDataRadar />
+        </Suspense>
+      )}
     </Container>
   )
-}
+})
 
 export default App

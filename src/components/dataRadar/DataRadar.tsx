@@ -1,12 +1,36 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useMemo } from 'react'
 import * as d3 from 'd3'
 import { matchData } from '../../data/matchData'
 import { RadialChartContainer } from './DataRadar.styles'
 import useGameType from '../../hooks/useGameType'
+import debounce from 'lodash/debounce'
 
 const DataRadar = () => {
   const ref = useRef<SVGSVGElement>(null)
   const { selectedGameTypes } = useGameType()
+
+  const maxValues = useMemo(() => {
+    return {
+      maxAttacks: Math.max(...matchData.map(d => d.attacks)),
+      maxDefense: Math.max(...matchData.map(d => d.defense)),
+      maxConceded: Math.max(...matchData.map(d => d.conceded)),
+      maxScored: Math.max(...matchData.map(d => d.scored)),
+      maxCorners: Math.max(...matchData.map(d => d.corners)),
+      maxFreeKicks: Math.max(...matchData.map(d => d.freeKicks)),
+    }
+  }, [])
+
+  const dataValues = useMemo(() => {
+    return matchData.map(d => [
+      (d.attacks / maxValues.maxAttacks) * 100,
+      (d.defense / maxValues.maxDefense) * 100,
+      (d.conceded / maxValues.maxConceded) * 100,
+      (d.scored / maxValues.maxScored) * 100,
+      (d.corners / maxValues.maxCorners) * 100,
+      (d.freeKicks / maxValues.maxFreeKicks) * 100,
+      d.possession,
+    ])
+  }, [maxValues])
 
   useEffect(() => {
     const svg = d3.select(ref.current)
@@ -24,37 +48,19 @@ const DataRadar = () => {
       '#17becf',
     ]
 
-    const resize = () => {
+    const resize = debounce(() => {
       const width = (ref.current?.clientWidth || 0) - margin.left - margin.right
       const height = (ref.current?.clientHeight || 0) - margin.top - margin.bottom
       const radius = Math.min(width, height) / 2
       svg.selectAll('*').remove()
 
       drawChart(width, height, radius)
-    }
+    }, 300)
 
     const drawChart = (width: number, height: number, radius: number) => {
-      const maxAttacks = Math.max(...matchData.map(i => i.attacks))
-      const maxDefense = Math.max(...matchData.map(i => i.defense))
-      const maxConceded = Math.max(...matchData.map(i => i.conceded))
-      const maxScored = Math.max(...matchData.map(i => i.scored))
-      const maxCorners = Math.max(...matchData.map(i => i.corners))
-      const maxFreeKicks = Math.max(...matchData.map(i => i.freeKicks))
-
       const levels = 5
       const angleSlice = (Math.PI * 2) / selectedGameTypes.filter(k => k !== 'Select all').length
-      const maxValue =
-        d3.max(matchData, d =>
-          Math.max(
-            (d.attacks / maxAttacks) * 100,
-            (d.defense / maxDefense) * 100,
-            (d.conceded / maxConceded) * 100,
-            (d.scored / maxScored) * 100,
-            (d.corners / maxCorners) * 100,
-            (d.freeKicks / maxFreeKicks) * 100,
-            d.possession,
-          ),
-        ) ?? 0
+      const maxValue = 100
 
       const radarLine = d3
         .lineRadial<number>()
@@ -118,17 +124,6 @@ const DataRadar = () => {
         .attr('x', (d, i) => radiusScale(maxValue * 1.1) * Math.cos(angleSlice * i - Math.PI / 2))
         .attr('y', (d, i) => radiusScale(maxValue * 1.1) * Math.sin(angleSlice * i - Math.PI / 2))
 
-      // Data for radar chart
-      const dataValues = matchData.map(d => [
-        (d.attacks / maxAttacks) * 100,
-        (d.defense / maxDefense) * 100,
-        (d.conceded / maxConceded) * 100,
-        (d.scored / maxScored) * 100,
-        (d.corners / maxCorners) * 100,
-        (d.freeKicks / maxFreeKicks) * 100,
-        d.possession,
-      ])
-
       // Draw data
       dataValues.forEach((dataSet, index) => {
         g.append('path')
@@ -158,7 +153,7 @@ const DataRadar = () => {
     return () => {
       window.removeEventListener('resize', resize)
     }
-  }, [selectedGameTypes])
+  }, [selectedGameTypes, dataValues])
 
   return (
     <RadialChartContainer>
@@ -168,3 +163,4 @@ const DataRadar = () => {
 }
 
 export default DataRadar
+

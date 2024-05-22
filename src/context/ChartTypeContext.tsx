@@ -24,6 +24,4 @@ export const ChartTypeProvider = ({ children }: Props) => {
   )
 }
 
-// export const useChartType = () => useContext(ChartTypeContext)
-
 export default ChartTypeContext

@@ -16,8 +16,8 @@ const Header = () => {
   const isMobile = width < 599
   const isIpad = width >= 599 && width < 768
   const isDesktop = width >= 768
-  
-  const { handleIconClick, canScrollLeft, canScrollRight } = useScrollContext()
+
+  const { handleIconClick, canScrollLeft, canScrollRight, resetScroll } = useScrollContext()
   const { setChartType, chartType } = useChartType()
 
   const [openFilters, setOpenFilters] = useState(false)
@@ -26,6 +26,7 @@ const Header = () => {
 
   const handleChartTypeSelect = (type: string) => {
     setChartType(type)
+    resetScroll()
   }
 
   const toggleFilters = () => setOpenFilters(!openFilters)
@@ -35,12 +36,12 @@ const Header = () => {
       <HeaderContainer>
         <IconBox>
           <Ball />
-          <img src={Goal} alt='Football goal' />
+          <img src={Goal} alt='Football goal' loading='lazy' />
         </IconBox>
 
         {isDesktop && (
           <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <div style={{ display: 'flex', flexDirection: 'row', marginRight: '1rem'}}>
+            <div style={{ display: 'flex', flexDirection: 'row', marginRight: '1rem' }}>
               <ChartType options={['Table', 'Radial']} onSelect={handleChartTypeSelect} />
             </div>
             <GameType options={categories} />
@@ -60,7 +61,7 @@ const Header = () => {
         </FiltersContainer>
       )}
 
-      {(isMobile && chartType === 'Table') && (
+      {isMobile && chartType === 'Table' && (
         <ArrowContainer>
           <ScrollIcon
             onClick={() => handleIconClick('left')}
