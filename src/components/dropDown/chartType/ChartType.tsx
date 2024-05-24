@@ -24,7 +24,7 @@ const ChartType = ({ options, onSelect }: Props) => {
       selectedOptions={[selectedOption]}
       onOptionChange={handleSelect}
       toggleDropdown={toggleDropdown}
-      renderItem={(option, isSelected, onSelect) => <span>{option}</span>}
+      renderItem={(option) => <span>{option}</span>}
       renderButtonContent={() => selectedOption}
     />
   )

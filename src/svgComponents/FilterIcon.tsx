@@ -1,7 +1,11 @@
 import { useState } from 'react'
 import { ReactComponent as Icon } from '../assets/svg/filter-32.svg'
+import useWindowSize from '../hooks/useWIndowSize'
 
 const FilterIcon = () => {
+  const { width } = useWindowSize()
+  const isIpad = width >= 599 && width < 769
+
   const [opened, setOpened] = useState(true)
 
   const handleIconClick = () => {
@@ -12,11 +16,9 @@ const FilterIcon = () => {
     <div>
       <Icon
         style={{
-          width: '1.9rem',
+          width: isIpad ? '2.7rem' : '1.9rem',
           marginLeft: '8px',
-          // fill: '#001a63',
           fill: '#FFF',
-          // opacity: opened ? 0.7 : 0.3,
           opacity: opened ? 1 : 0.5,
           position: 'absolute',
           top: '2rem',

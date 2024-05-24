@@ -1,21 +1,21 @@
 import { useState } from 'react'
-import ScrollIcon from '../scrollIcon/ScrollIcon'
-import { HeaderContainer, IconBox, ArrowContainer, FiltersContainer } from './Header.styles'
+import { HeaderContainer, IconBox } from './Header.styles'
 import useScrollContext from '../../hooks/useScrollContext'
 import Ball from '../../svgComponents/Ball'
 import Goal from '../../assets/goal.png'
-import GameType from '../dropDown/gameType/GameType'
 import { matchData } from '../../data/matchData'
-import ChartType from '../dropDown/chartType/ChartType'
-import FilterIcon from '../../svgComponents/FilterIcon'
 import useChartType from '../../hooks/useChartType'
 import useWindowSize from '../../hooks/useWIndowSize'
+import HeaderContent from './HeaderContent'
+import MobileFilterToggle from './MobileFilterToggle'
+import MobileFilters from './MobileFilters'
+import MobileArrows from './MobileArrows'
 
 const Header = () => {
   const { width } = useWindowSize()
   const isMobile = width < 599
-  const isIpad = width >= 599 && width < 768
-  const isDesktop = width >= 768
+  const isIpad = width >= 599 && width < 769
+  const isDesktop = width >= 769
 
   const { handleIconClick, canScrollLeft, canScrollRight, resetScroll } = useScrollContext()
   const { setChartType, chartType } = useChartType()
@@ -40,42 +40,25 @@ const Header = () => {
         </IconBox>
 
         {isDesktop && (
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <div style={{ display: 'flex', flexDirection: 'row', marginRight: '1rem' }}>
-              <ChartType options={['Table', 'Radial']} onSelect={handleChartTypeSelect} />
-            </div>
-            <GameType options={categories} />
-          </div>
+          <HeaderContent categories={categories} handleChartTypeSelect={handleChartTypeSelect} />
         )}
-        {(isMobile || isIpad) && (
-          <div onClick={toggleFilters}>
-            <FilterIcon />
-          </div>
-        )}
+        {(isMobile || isIpad) && <MobileFilterToggle toggleFilters={toggleFilters} />}
       </HeaderContainer>
 
-      {(isMobile || isIpad) && openFilters && (
-        <FiltersContainer open={openFilters}>
-          <ChartType options={['Table', 'Radar']} onSelect={handleChartTypeSelect} />
-          <GameType options={categories} />
-        </FiltersContainer>
+      {(isMobile || isIpad) && (
+        <MobileFilters
+          openFilters={openFilters}
+          handleChartTypeSelect={handleChartTypeSelect}
+          categories={categories}
+        />
       )}
 
       {isMobile && chartType === 'Table' && (
-        <ArrowContainer>
-          <ScrollIcon
-            onClick={() => handleIconClick('left')}
-            isVisible={isMobile}
-            direction='left'
-            canScroll={canScrollLeft}
-          />
-          <ScrollIcon
-            onClick={() => handleIconClick('right')}
-            isVisible={isMobile}
-            direction='right'
-            canScroll={canScrollRight}
-          />
-        </ArrowContainer>
+        <MobileArrows
+          handleIconClick={handleIconClick}
+          canScrollLeft={canScrollLeft}
+          canScrollRight={canScrollRight}
+        />
       )}
     </>
   )

@@ -19,7 +19,7 @@ export const FiltersContainer = styled.div<HeaderContainerProps>`
 
   height: ${({ open }) => (open ? '7rem' : '0')};
   transition: height 0.7s ease-in-out;
-  
+
   ${({ theme }) => theme.mediaQueries.phone} {
     margin-top: 3rem;
     flex-direction: column;
@@ -32,6 +32,10 @@ export const FiltersContainer = styled.div<HeaderContainerProps>`
   ${({ theme }) => theme.mediaQueries.miniTablet} {
     flex-direction: column;
     align-items: flex-start;
+
+    :nth-child(1) {
+      z-index: 100;
+    }
   }
 `
 
@@ -54,6 +58,7 @@ export const IconBox = styled.div`
   }
 
   img {
+    width: 110%;
     height: 110%;
   }
 `
@@ -65,4 +70,18 @@ export const ArrowContainer = styled.div`
   top: 50%;
   width: 100%;
   left: 0;
+`
+
+export const FlexContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+
+export const InnerFlexContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-right: 1rem;
+`
+export const FilterContainer = styled.div`
+  z-index: 2;
 `

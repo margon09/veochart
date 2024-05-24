@@ -1,30 +1,24 @@
 import styled from 'styled-components'
 
 export const RadialChartContainer = styled.div`
-  width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 2rem;
-  padding: 2rem;
+  box-sizing: border-box;
 
   svg {
     width: 100%;
-    height: 100%;
-  }
+    height: calc(100vh - 7rem);
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 0;
 
-  @media (max-width: 599px) {
-    height: 500px;
-    margin-top: 0rem;
-    padding: 0;
-  }
-
-  @media (min-width: 600px) and (max-width: 1199px) {
-    height: 600px;
-  }
-
-  @media (min-width: 1200px) {
-    height: 700px;
+    ${({ theme }) => theme.mediaQueries.phone} {
+      height: calc(100vh - 2rem);
+    }
+    @media (max-width: 375px) and (max-height: 740px) {
+      height: calc(100vh - 100px);
+    }
   }
 `

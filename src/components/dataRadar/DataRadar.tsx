@@ -4,10 +4,12 @@ import { matchData } from '../../data/matchData'
 import { RadialChartContainer } from './DataRadar.styles'
 import useGameType from '../../hooks/useGameType'
 import debounce from 'lodash/debounce'
+import useWindowSize from '../../hooks/useWIndowSize'
 
 const DataRadar = () => {
   const ref = useRef<SVGSVGElement>(null)
   const { selectedGameTypes } = useGameType()
+  const { width, height } = useWindowSize()
 
   const maxValues = useMemo(() => {
     return {
@@ -34,7 +36,8 @@ const DataRadar = () => {
 
   useEffect(() => {
     const svg = d3.select(ref.current)
-    const margin = { top: 40, right: 40, bottom: 40, left: 40 }
+    const margin = { top: 20, right: 20, bottom: 20, left: 20 }
+    const padding = 16
     const colors = [
       '#0f7fd0',
       '#ff7f0e',
@@ -49,21 +52,24 @@ const DataRadar = () => {
     ]
 
     const resize = debounce(() => {
-      const width = (ref.current?.clientWidth || 0) - margin.left - margin.right
-      const height = (ref.current?.clientHeight || 0) - margin.top - margin.bottom
-      const radius = Math.min(width, height) / 2
+      const availableWidth = width - padding * 2
+      const availableHeight = height - padding * 2
+      const chartSize = Math.min(availableWidth, availableHeight)
+      const radius = chartSize / 2.5
+
       svg.selectAll('*').remove()
 
-      drawChart(width, height, radius)
+      drawChart(availableWidth, availableHeight, radius)
     }, 300)
 
-    const drawChart = (width: number, height: number, radius: number) => {
+    const drawChart = (chartWidth: number, chartHeight: number, radius: number) => {
       const levels = 5
       const angleSlice = (Math.PI * 2) / selectedGameTypes.filter(k => k !== 'Select all').length
       const maxValue = 100
 
       const radarLine = d3
         .lineRadial<number>()
+
         .curve(d3.curveLinearClosed)
         .radius(d => radiusScale(d))
         .angle((d, i) => i * angleSlice)
@@ -71,15 +77,15 @@ const DataRadar = () => {
       const radiusScale = d3.scaleLinear().range([0, radius]).domain([0, maxValue])
 
       svg
-        .attr('width', width + margin.left + margin.right)
-        .attr('height', height + margin.top + margin.bottom)
+        .attr('width', chartWidth + margin.left + margin.right)
+        .attr('height', chartHeight + margin.top + margin.bottom)
 
       const g = svg
         .append('g')
         .attr(
           'transform',
-          `translate(${(width + margin.left + margin.right) / 2},${
-            (height + margin.top + margin.bottom) / 2
+          `translate(${(chartWidth + margin.left + margin.right) / 2}, ${
+            (chartHeight + margin.top + margin.bottom) / 2
           })`,
         )
 
@@ -98,6 +104,7 @@ const DataRadar = () => {
           .style('stroke-width', '0.5px')
       }
 
+      // Axes
       const axis = g
         .selectAll('.axis')
         .data(selectedGameTypes.filter(key => key !== 'Select all'))
@@ -117,8 +124,8 @@ const DataRadar = () => {
       axis
         .append('text')
         .attr('class', 'legend')
-        .text(d => d)
-        .style('font-size', '11px')
+        .text(d => d.charAt(0).toUpperCase() + d.slice(1))
+        .style('font-size', '16px')
         .attr('text-anchor', 'middle')
         .attr('dy', '0.35em')
         .attr('x', (d, i) => radiusScale(maxValue * 1.1) * Math.cos(angleSlice * i - Math.PI / 2))
@@ -146,14 +153,12 @@ const DataRadar = () => {
       })
     }
 
-    // Initial draw
     resize()
-    window.addEventListener('resize', resize)
 
     return () => {
-      window.removeEventListener('resize', resize)
+      resize.cancel()
     }
-  }, [selectedGameTypes, dataValues])
+  }, [width, height, selectedGameTypes, dataValues])
 
   return (
     <RadialChartContainer>
@@ -163,4 +168,3 @@ const DataRadar = () => {
 }
 
 export default DataRadar
-
