@@ -10,6 +10,8 @@ const DataRadar = () => {
   const ref = useRef<SVGSVGElement>(null)
   const { selectedGameTypes } = useGameType()
   const { width, height } = useWindowSize()
+  const isMinorMobile = width <= 375 && width > 344
+  const isDesktop = width >= 768
 
   const maxValues = useMemo(() => {
     return {
@@ -36,7 +38,7 @@ const DataRadar = () => {
 
   useEffect(() => {
     const svg = d3.select(ref.current)
-    const margin = { top: 20, right: 20, bottom: 20, left: 20 }
+    const margin = { top: 20, right: 20, bottom: 80, left: 20 }
     const padding = 16
     const colors = [
       '#0f7fd0',
@@ -69,7 +71,6 @@ const DataRadar = () => {
 
       const radarLine = d3
         .lineRadial<number>()
-
         .curve(d3.curveLinearClosed)
         .radius(d => radiusScale(d))
         .angle((d, i) => i * angleSlice)
@@ -151,6 +152,41 @@ const DataRadar = () => {
           .style('fill', colors[index % colors.length])
           .style('fill-opacity', 0.8)
       })
+
+      // Color Legend
+      const legendRectSize = 18
+      const legendSpacing = 4
+
+      const legend = svg
+        .append('g')
+        .attr('class', 'legend')
+        .attr(
+          'transform',
+          isDesktop ? 'translate(48, 80)' : isMinorMobile ? 'translate(0, 0)' : 'translate(0, 65)',
+        )
+
+      const legendItems = matchData.map((match, index) => ({
+        color: colors[index % colors.length],
+        label: match.date,
+      }))
+
+      legendItems.forEach((item, i) => {
+        legend
+          .append('rect')
+          .attr('x', 0)
+          .attr('y', i * (legendRectSize + legendSpacing))
+          .attr('width', legendRectSize)
+          .attr('height', legendRectSize)
+          .style('fill', item.color)
+
+        legend
+          .append('text')
+          .attr('x', legendRectSize + legendSpacing)
+          .attr('y', i * (legendRectSize + legendSpacing) + legendRectSize / 1.5)
+          .text(item.label)
+          .style('font-size', '14px')
+          .attr('text-anchor', 'start')
+      })
     }
 
     resize()
@@ -158,7 +194,7 @@ const DataRadar = () => {
     return () => {
       resize.cancel()
     }
-  }, [width, height, selectedGameTypes, dataValues])
+  }, [width, height, selectedGameTypes, dataValues, isDesktop, isMinorMobile])
 
   return (
     <RadialChartContainer>

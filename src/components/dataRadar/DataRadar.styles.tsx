@@ -8,7 +8,7 @@ export const RadialChartContainer = styled.div`
 
   svg {
     width: 100%;
-    height: calc(100vh - 7rem);
+    height: calc(100vh - 3rem);
     display: block;
     box-sizing: border-box;
     position: absolute;

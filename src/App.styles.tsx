@@ -18,6 +18,7 @@ export const HeaderContainer = styled.div`
 
   ${({ theme }) => theme.mediaQueries.phone} {
     padding: 3rem;
+    z-index: 2;
   }
 `
 export const ChartContainer = styled.div`
