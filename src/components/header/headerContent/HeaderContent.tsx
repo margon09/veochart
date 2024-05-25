@@ -1,6 +1,6 @@
-import ChartType from '../dropDown/chartType/ChartType'
-import GameType from '../dropDown/gameType/GameType'
-import { FlexContainer, InnerFlexContainer } from './Header.styles'
+import ChartType from '../../dropDown/chartType/ChartType'
+import GameType from '../../dropDown/gameType/GameType'
+import { FlexContainer, InnerFlexContainer } from '../Header.styles'
 
 interface HeaderContentProps {
   categories: string[]
@@ -13,7 +13,7 @@ const HeaderContent = ({
   handleChartTypeSelect,
   currentChartType,
 }: HeaderContentProps) => (
-  <FlexContainer>
+  <FlexContainer data-testid='header-content-mock'>
     <InnerFlexContainer>
       <ChartType
         options={['Table', 'Radial']}

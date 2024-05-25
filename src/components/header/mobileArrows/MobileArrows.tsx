@@ -1,5 +1,5 @@
-import ScrollIcon from '../scrollIcon/ScrollIcon'
-import { ArrowContainer } from './Header.styles'
+import ScrollIcon from '../../scrollIcon/ScrollIcon'
+import { ArrowContainer } from '../Header.styles'
 
 interface MobileArrowsProps {
   handleIconClick: (direction: 'left' | 'right') => void
@@ -8,7 +8,7 @@ interface MobileArrowsProps {
 }
 
 const MobileArrows = ({ handleIconClick, canScrollLeft, canScrollRight }: MobileArrowsProps) => (
-  <ArrowContainer>
+  <ArrowContainer data-testid='mobile-arrows-mock'>
     <ScrollIcon
       onClick={() => handleIconClick('left')}
       isVisible

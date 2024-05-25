@@ -1,12 +1,12 @@
-import FilterIcon from '../../svgComponents/FilterIcon'
-import { FilterContainer } from './Header.styles'
+import FilterIcon from '../../../svgComponents/FilterIcon'
+import { FilterContainer } from '../Header.styles'
 
 interface MobileFilterToggleProps {
   toggleFilters: () => void
 }
 
 const MobileFilterToggle = ({ toggleFilters }: MobileFilterToggleProps) => (
-  <FilterContainer onClick={toggleFilters}>
+  <FilterContainer data-testid='toggleBtn' onClick={toggleFilters}>
     <FilterIcon />
   </FilterContainer>
 )

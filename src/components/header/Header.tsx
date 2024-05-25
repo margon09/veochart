@@ -6,10 +6,10 @@ import Goal from '../../assets/goal.png'
 import { matchData } from '../../data/matchData'
 import useChartType from '../../hooks/useChartType'
 import useWindowSize from '../../hooks/useWIndowSize'
-import HeaderContent from './HeaderContent'
-import MobileFilterToggle from './MobileFilterToggle'
-import MobileFilters from './MobileFilters'
-import MobileArrows from './MobileArrows'
+import MobileFilters from './mobileFilters/MobileFilters'
+import HeaderContent from './headerContent/HeaderContent'
+import MobileArrows from './mobileArrows/MobileArrows'
+import MobileFilterToggle from './mobileFilterToggle/MobileFilterToggle'
 
 const Header = () => {
   const { width } = useWindowSize()

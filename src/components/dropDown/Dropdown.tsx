@@ -32,13 +32,14 @@ const Dropdown = ({
 
   return (
     <DropdownContainer>
-      <DropdownButton onClick={toggleDropdown}>
+      <DropdownButton onClick={toggleDropdown} data-testid='button-content'>
         <ButtonContent>{renderButtonContent()}</ButtonContent>
       </DropdownButton>
       {isOpen && (
         <DropdownList>
           {options.map(option => (
             <DropdownListItem
+              data-testid={`item-${option}`}
               key={option}
               onClick={() => {
                 onOptionChange(option)

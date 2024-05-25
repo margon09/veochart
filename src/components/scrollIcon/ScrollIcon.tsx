@@ -11,7 +11,12 @@ const ScrollIcon = ({ onClick, isVisible, direction, canScroll }: Props) => {
   if (!isVisible) return null
 
   return (
-    <ScrollIconContainer onClick={onClick} direction={direction} $canScroll={canScroll}>
+    <ScrollIconContainer
+      data-testid='scroll-icon-container'
+      onClick={onClick}
+      direction={direction}
+      $canScroll={canScroll}
+    >
       {direction !== 'none' && (direction === 'right' ? <RightArrowIcon /> : <LeftArrowIcon />)}
     </ScrollIconContainer>
   )
