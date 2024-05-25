@@ -1,8 +1,8 @@
-import { useEffect, useMemo } from 'react'
-import useGameType from '../../../hooks/useGameType'
-import useWindowSize from '../../../hooks/useWIndowSize'
+import { useMemo } from 'react'
 import Dropdown from '../Dropdown'
 import { Checkbox, CheckboxContainer } from '../Dropdown.styles'
+import useGameType from '../../../hooks/useGameType'
+import useWindowSize from '../../../hooks/useWIndowSize'
 
 const GameType = ({ options }: { options: string[] }) => {
   const { width } = useWindowSize()
@@ -12,28 +12,27 @@ const GameType = ({ options }: { options: string[] }) => {
 
   const allOptions = useMemo(() => ['Select all', ...options], [options])
 
-  useEffect(() => {
-    setSelectedGameTypes(allOptions)
-  }, [setSelectedGameTypes, allOptions])
-
   const handleOptionChange = (option: string) => {
+    let newSelectedOptions: string[] = []
     if (option === 'Select all') {
       if (selectedGameTypes.includes('Select all')) {
-        setSelectedGameTypes([])
+        newSelectedOptions = []
       } else {
-        setSelectedGameTypes(allOptions)
+        newSelectedOptions = allOptions
       }
     } else {
-      const newSelectedOptions = selectedGameTypes.includes(option)
-        ? selectedGameTypes.filter(o => o !== option)
-        : [...selectedGameTypes, option]
+      if (selectedGameTypes.includes(option)) {
+        newSelectedOptions = selectedGameTypes.filter(o => o !== option && o !== 'Select all')
+      } else {
+        newSelectedOptions = [...selectedGameTypes, option]
+      }
 
       if (newSelectedOptions.length === options.length) {
-        setSelectedGameTypes(allOptions)
-      } else {
-        setSelectedGameTypes(newSelectedOptions.filter(o => o !== 'Select all'))
+        newSelectedOptions.push('Select all')
       }
     }
+
+    setSelectedGameTypes(newSelectedOptions)
   }
 
   const renderButtonContent = () => {

@@ -40,7 +40,11 @@ const Header = () => {
         </IconBox>
 
         {isDesktop && (
-          <HeaderContent categories={categories} handleChartTypeSelect={handleChartTypeSelect} />
+          <HeaderContent
+            categories={categories}
+            handleChartTypeSelect={handleChartTypeSelect}
+            currentChartType={chartType}
+          />
         )}
         {(isMobile || isIpad) && <MobileFilterToggle toggleFilters={toggleFilters} />}
       </HeaderContainer>
@@ -50,6 +54,7 @@ const Header = () => {
           openFilters={openFilters}
           handleChartTypeSelect={handleChartTypeSelect}
           categories={categories}
+          currentChartType={chartType}
         />
       )}
 

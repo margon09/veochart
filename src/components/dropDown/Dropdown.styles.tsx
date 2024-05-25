@@ -39,7 +39,7 @@ export const ButtonContent = styled.div`
 
 export const DropdownList = styled.ul`
   position: absolute;
-  width: 100%;
+  width: 99.2%;
   background: white;
   border: 1px solid ${({ theme }) => theme.colors.borders};
   padding: 0;

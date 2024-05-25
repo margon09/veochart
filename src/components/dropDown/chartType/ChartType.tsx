@@ -1,32 +1,39 @@
-import { useState } from 'react'
+
+import { useState, useEffect } from 'react'
 import Dropdown from '../Dropdown'
 
 interface Props {
   options: string[]
   onSelect: (selected: string) => void
+  selectedOption: string
 }
 
-const ChartType = ({ options, onSelect }: Props) => {
-  const [selectedOption, setSelectedOption] = useState(options[0])
+const ChartType = ({ options, onSelect, selectedOption }: Props) => {
+  const [selected, setSelected] = useState(selectedOption)
   const [isOpen, setIsOpen] = useState(false)
 
+  useEffect(() => {
+    setSelected(selectedOption)
+  }, [selectedOption])
+
   const handleSelect = (option: string) => {
-    setSelectedOption(option)
+    setSelected(option)
     onSelect(option)
     setIsOpen(false)
   }
 
-  const toggleDropdown = () =>setIsOpen(!isOpen)
+  const toggleDropdown = () => setIsOpen(!isOpen)
 
   return (
     <Dropdown
       options={options}
-      selectedOptions={[selectedOption]}
+      selectedOptions={[selected]}
       onOptionChange={handleSelect}
       toggleDropdown={toggleDropdown}
-      renderItem={(option) => <span>{option}</span>}
-      renderButtonContent={() => selectedOption}
+      renderItem={option => <span>{option}</span>}
+      renderButtonContent={() => selected}
     />
   )
 }
+
 export default ChartType
