@@ -26,6 +26,7 @@ describe('GameType', () => {
       width: 1280,
       height: 720,
       deviceType: 'desktop',
+      isMinorMobile: false
     })
   })
 
@@ -52,7 +53,8 @@ describe('GameType', () => {
     jest.mocked(useWindowSize).mockReturnValue({
       width: 400,
       height: 800,
-      deviceType: 'mobile'
+      deviceType: 'mobile',
+      isMinorMobile: false
     })
     renderWithTheme(<GameType {...PROPS} />)
     expect(screen.getByText('Plays')).toBeInTheDocument()

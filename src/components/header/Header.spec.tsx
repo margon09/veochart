@@ -30,7 +30,8 @@ describe('Header', () => {
     jest.mocked(useWindowSize).mockImplementation(() => ({
       width: 1280,
       height: 720,
-      deviceType: 'desktop'
+      deviceType: 'desktop',
+      isMinorMobile: false
     }))
     renderWithTheme(<Header />)
     expect(screen.getByTestId('header-content-mock')).toBeInTheDocument()
@@ -40,7 +41,8 @@ describe('Header', () => {
     jest.mocked(useWindowSize).mockImplementation(() => ({
       width: 400,
       height: 700,
-      deviceType: 'mobile'
+      deviceType: 'mobile',
+      isMinorMobile: false
     }))
 
     renderWithTheme(<Header />)
@@ -51,7 +53,8 @@ describe('Header', () => {
     jest.mocked(useWindowSize).mockImplementation(() => ({
       width: 414,
       height: 896,
-      deviceType: 'ipad'
+      deviceType: 'ipad',
+      isMinorMobile: false
     }))
 
     renderWithTheme(<Header />)
@@ -63,7 +66,8 @@ describe('Header', () => {
     jest.mocked(useWindowSize).mockImplementation(() => ({
       width: 414,
       height: 896,
-      deviceType: 'mobile'
+      deviceType: 'mobile',
+      isMinorMobile: false
     }))
 
     jest.mock('react', () => ({

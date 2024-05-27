@@ -4,7 +4,8 @@ const useWindowSize = () => {
   const [size, setSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
-    deviceType: 'desktop'
+    deviceType: 'desktop',
+    isMinorMobile: window.innerWidth <= 375 && window.innerWidth > 344
   })
 
   useEffect(() => {
@@ -12,6 +13,7 @@ const useWindowSize = () => {
       const width = window.innerWidth
       const height = window.innerHeight
       let deviceType = 'desktop'
+      let isMinorMobile = width <= 375 && width > 344
 
       if (width < 599) {
         deviceType = 'mobile'
@@ -19,7 +21,7 @@ const useWindowSize = () => {
         deviceType = 'ipad'
       }
 
-      setSize({ width, height, deviceType })
+      setSize({ width, height, deviceType, isMinorMobile })
     }
 
     window.addEventListener('resize', handleResize)

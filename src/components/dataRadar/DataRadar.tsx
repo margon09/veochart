@@ -10,9 +10,9 @@ import { filterGameTypes } from '../../utils/matchDataUtils'
 const DataRadar = () => {
   const ref = useRef<SVGSVGElement>(null)
   const { selectedGameTypes } = useGameType()
-  const { width, height } = useWindowSize()
-  const isMinorMobile = width <= 375 && width > 344
-  const isDesktop = width >= 768
+  const { width, height, deviceType } = useWindowSize()
+  // const isMinorMobile = width <= 375 && width > 344
+  // const isDesktop = width >= 768
 
   const maxValues = useMemo(() => {
     return {
@@ -164,7 +164,11 @@ const DataRadar = () => {
         .attr('class', 'legend')
         .attr(
           'transform',
-          isDesktop ? 'translate(48, 80)' : isMinorMobile ? 'translate(0, 0)' : 'translate(0, 65)',
+          deviceType === 'desktop'
+            ? 'translate(48, 80)'
+            : deviceType === 'isMinorMobile'
+            ? 'translate(0, 0)'
+            : 'translate(0, 65)',
         )
 
       const legendItems = matchData.map((match, index) => ({
@@ -196,7 +200,7 @@ const DataRadar = () => {
     return () => {
       resize.cancel()
     }
-  }, [width, height, selectedGameTypes, dataValues, isDesktop, isMinorMobile])
+  }, [width, height, selectedGameTypes, dataValues, deviceType])
 
   return (
     <RadialChartContainer>
