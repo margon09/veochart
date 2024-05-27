@@ -17,6 +17,7 @@ export const theme = {
     borders: '#ccc',
     checkBox: '#00287f;',
     green: '#146903',
+    headerColor: '#134a00;',
   },
   breakpoints,
   mediaQueries: {

@@ -39,8 +39,10 @@ export const Table = styled.table`
 `
 
 export const TableHeader = styled.th`
-  border: 1px solid ${({ theme }) => theme.colors.borders};
   padding: 8px;
+  text-align: left;
+  color: ${({ theme }) => theme.colors.headerColor};
+  border: 1px solid ${({ theme }) => theme.colors.borders};
   background-color: ${({ theme }) => theme.colors.header};
 
   ${({ theme }) => theme.mediaQueries.phone} {

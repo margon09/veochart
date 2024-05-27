@@ -5,8 +5,7 @@ import useGameType from '../../../hooks/useGameType'
 import useWindowSize from '../../../hooks/useWIndowSize'
 
 const GameType = ({ options }: { options: string[] }) => {
-  const { width } = useWindowSize()
-  const isMobile = width < 599
+  const { deviceType } = useWindowSize()
 
   const { selectedGameTypes, setSelectedGameTypes } = useGameType()
 
@@ -36,7 +35,7 @@ const GameType = ({ options }: { options: string[] }) => {
   }
 
   const renderButtonContent = () => {
-    return isMobile ? 'Plays' : 'Select plays'
+    return deviceType === 'mobile' ? 'Plays' : 'Select plays'
   }
 
   return (
@@ -48,7 +47,7 @@ const GameType = ({ options }: { options: string[] }) => {
         renderItem={(option, isSelected, onSelect) => (
           <CheckboxContainer onClick={e => e.stopPropagation()}>
             <Checkbox type='checkbox' checked={isSelected} onChange={() => onSelect(option)} />
-            <span>{option}</span>
+            <span>{option.charAt(0).toUpperCase() + option.slice(1)}</span>
           </CheckboxContainer>
         )}
         renderButtonContent={renderButtonContent}

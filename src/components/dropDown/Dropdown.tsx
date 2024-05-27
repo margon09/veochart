@@ -4,7 +4,7 @@ import {
   DropdownContainer,
   DropdownList,
   DropdownListItem,
-  ButtonContent
+  ButtonContent,
 } from './Dropdown.styles'
 
 interface Props {

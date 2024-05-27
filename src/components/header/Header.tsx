@@ -10,19 +10,16 @@ import MobileFilters from './mobileFilters/MobileFilters'
 import HeaderContent from './headerContent/HeaderContent'
 import MobileArrows from './mobileArrows/MobileArrows'
 import MobileFilterToggle from './mobileFilterToggle/MobileFilterToggle'
+import { getMatchDataCategories } from '../../utils/matchDataUtils'
 
 const Header = () => {
-  const { width } = useWindowSize()
-  const isMobile = width < 599
-  const isIpad = width >= 599 && width < 769
-  const isDesktop = width >= 769
-
+  const { deviceType } = useWindowSize()
   const { handleIconClick, canScrollLeft, canScrollRight, resetScroll } = useScrollContext()
   const { setChartType, chartType } = useChartType()
 
   const [openFilters, setOpenFilters] = useState(false)
 
-  const categories = Object.keys(matchData[0]).filter(key => key !== 'date')
+  const categories = getMatchDataCategories(matchData)
 
   const handleChartTypeSelect = (type: string) => {
     setChartType(type)
@@ -39,17 +36,19 @@ const Header = () => {
           <img src={Goal} alt='Football goal' loading='lazy' />
         </IconBox>
 
-        {isDesktop && (
+        {deviceType === 'desktop' && (
           <HeaderContent
             categories={categories}
             handleChartTypeSelect={handleChartTypeSelect}
             currentChartType={chartType}
           />
         )}
-        {(isMobile || isIpad) && <MobileFilterToggle toggleFilters={toggleFilters} />}
+        {(deviceType === 'mobile' || deviceType === 'ipad') && (
+          <MobileFilterToggle toggleFilters={toggleFilters} />
+        )}
       </HeaderContainer>
 
-      {(isMobile || isIpad) && (
+      {(deviceType === 'mobile' || deviceType === 'ipad') && (
         <MobileFilters
           openFilters={openFilters}
           handleChartTypeSelect={handleChartTypeSelect}
@@ -58,7 +57,7 @@ const Header = () => {
         />
       )}
 
-      {isMobile && chartType === 'Table' && (
+      {deviceType === 'mobile' && chartType === 'Table' && (
         <MobileArrows
           handleIconClick={handleIconClick}
           canScrollLeft={canScrollLeft}

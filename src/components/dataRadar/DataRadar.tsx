@@ -2,9 +2,10 @@ import { useRef, useEffect, useMemo } from 'react'
 import * as d3 from 'd3'
 import { matchData } from '../../data/matchData'
 import { RadialChartContainer } from './DataRadar.styles'
-import useGameType from '../../hooks/useGameType'
 import debounce from 'lodash/debounce'
+import useGameType from '../../hooks/useGameType'
 import useWindowSize from '../../hooks/useWIndowSize'
+import { filterGameTypes } from '../../utils/matchDataUtils'
 
 const DataRadar = () => {
   const ref = useRef<SVGSVGElement>(null)
@@ -54,10 +55,11 @@ const DataRadar = () => {
     ]
 
     const resize = debounce(() => {
+      const chartAreaScalingFactor = 2.5
       const availableWidth = width - padding * 2
       const availableHeight = height - padding * 2
       const chartSize = Math.min(availableWidth, availableHeight)
-      const radius = chartSize / 2.5
+      const radius = chartSize / chartAreaScalingFactor
 
       svg.selectAll('*').remove()
 
@@ -66,7 +68,7 @@ const DataRadar = () => {
 
     const drawChart = (chartWidth: number, chartHeight: number, radius: number) => {
       const levels = 5
-      const angleSlice = (Math.PI * 2) / selectedGameTypes.filter(k => k !== 'Select all').length
+      const angleSlice = (Math.PI * 2) / filterGameTypes(selectedGameTypes).length
       const maxValue = 100
 
       const radarLine = d3

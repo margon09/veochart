@@ -3,25 +3,15 @@ import { TableContainer, Table, TableHeader, TableCell } from './DataTable.style
 import { matchData } from '../../data/matchData'
 import useScrollContext from '../../hooks/useScrollContext'
 import useGameType from '../../hooks/useGameType'
-
-interface MatchData {
-  date: string
-  attacks: number
-  defense: number
-  conceded: number
-  scored: number
-  corners: number
-  freeKicks: number
-  possession: string
-}
+import { MatchData, filterGameTypes } from '../../utils/matchDataUtils'
 
 const DataTable = () => {
   const { tableContainerRef } = useScrollContext()
   const { selectedGameTypes } = useGameType()
 
   const headers = useMemo(
-    () => ['date', ...selectedGameTypes.filter(k => k !== 'Select all')],
-    [selectedGameTypes],
+    () => ['date', ...filterGameTypes(selectedGameTypes)],
+    [selectedGameTypes]
   )
 
   return (

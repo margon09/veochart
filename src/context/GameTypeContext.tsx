@@ -1,5 +1,6 @@
 import { createContext, useState, Dispatch, SetStateAction, ReactNode, useEffect } from 'react'
 import { matchData } from '../data/matchData'
+import { getMatchDataCategories } from '../utils/matchDataUtils'
 
 interface Props {
   children: ReactNode
@@ -19,7 +20,8 @@ export const GameTypeProvider = ({ children }: Props) => {
   const [selectedGameTypes, setSelectedGameTypes] = useState<string[]>([])
 
   useEffect(() => {
-    const allKeys = Object.keys(matchData[0]).filter(key => key !== 'date')
+    // const allKeys = Object.keys(matchData[0]).filter(key => key !== 'date')
+    const allKeys = getMatchDataCategories(matchData)
     setSelectedGameTypes(allKeys)
   }, [])
 

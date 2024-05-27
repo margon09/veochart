@@ -30,6 +30,7 @@ describe('Header', () => {
     jest.mocked(useWindowSize).mockImplementation(() => ({
       width: 1280,
       height: 720,
+      deviceType: 'desktop'
     }))
     renderWithTheme(<Header />)
     expect(screen.getByTestId('header-content-mock')).toBeInTheDocument()
@@ -39,10 +40,7 @@ describe('Header', () => {
     jest.mocked(useWindowSize).mockImplementation(() => ({
       width: 400,
       height: 700,
-    }))
-
-    jest.mock('../../hooks/useChartType', () => () => ({
-      chartType: 'Table',
+      deviceType: 'mobile'
     }))
 
     renderWithTheme(<Header />)
@@ -53,6 +51,7 @@ describe('Header', () => {
     jest.mocked(useWindowSize).mockImplementation(() => ({
       width: 414,
       height: 896,
+      deviceType: 'ipad'
     }))
 
     renderWithTheme(<Header />)
@@ -64,6 +63,7 @@ describe('Header', () => {
     jest.mocked(useWindowSize).mockImplementation(() => ({
       width: 414,
       height: 896,
+      deviceType: 'mobile'
     }))
 
     jest.mock('react', () => ({
