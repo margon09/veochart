@@ -167,6 +167,7 @@ const DataRadar = () => {
           .append('g')
           .attr('transform', `translate(0, ${i * (legendRectSize + legendSpacing)})`)
           .attr('class', `legend-item legend-item-${item.index}`)
+          .style('cursor', 'pointer')
           .on('mouseover', function () {
             d3.select(`.radarArea-${item.index}`).style('fill-opacity', 0.5).raise()
           })
