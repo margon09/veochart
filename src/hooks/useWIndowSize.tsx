@@ -5,7 +5,7 @@ const useWindowSize = () => {
     width: window.innerWidth,
     height: window.innerHeight,
     deviceType: 'desktop',
-    isMinorMobile: window.innerWidth <= 375 && window.innerWidth > 344
+    isMinorMobile: window.innerWidth <= 375 && window.innerWidth > 344,
   })
 
   useEffect(() => {
@@ -19,12 +19,13 @@ const useWindowSize = () => {
         deviceType = 'mobile'
       } else if (width >= 599 && width < 769) {
         deviceType = 'ipad'
-      }
+      } 
 
       setSize({ width, height, deviceType, isMinorMobile })
     }
 
     window.addEventListener('resize', handleResize)
+    handleResize()
 
     return () => {
       window.removeEventListener('resize', handleResize)

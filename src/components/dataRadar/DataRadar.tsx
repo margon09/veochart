@@ -1,4 +1,4 @@
-import { useRef, useEffect, useMemo } from 'react'
+import { useRef, useEffect, useMemo, useCallback } from 'react'
 import * as d3 from 'd3'
 import { matchData } from '../../data/matchData'
 import { RadialChartContainer } from './DataRadar.styles'
@@ -10,7 +10,7 @@ import { filterGameTypes } from '../../utils/matchDataUtils'
 const DataRadar = () => {
   const ref = useRef<SVGSVGElement>(null)
   const { selectedGameTypes } = useGameType()
-  const { width, height, deviceType } = useWindowSize()
+  const { width, height, deviceType, isMinorMobile } = useWindowSize()
 
   const maxValues = useMemo(() => {
     return {
@@ -35,36 +35,22 @@ const DataRadar = () => {
     ])
   }, [maxValues])
 
-  useEffect(() => {
-    const svg = d3.select(ref.current)
-    const margin = { top: 20, right: 20, bottom: 80, left: 20 }
-    const padding = 16
-    const colors = [
-      '#0f7fd0',
-      '#ff7f0e',
-      '#2ca02c',
-      '#d62728',
-      '#9467bd',
-      '#8c564b',
-      '#e377c2',
-      '#7f7f7f',
-      '#dfd000',
-      '#17becf',
-    ]
-
-    const resize = debounce(() => {
-      const chartAreaScalingFactor = 2.5
-      const availableWidth = width - padding * 2
-      const availableHeight = height - padding * 2
-      const chartSize = Math.min(availableWidth, availableHeight)
-      const radius = chartSize / chartAreaScalingFactor
-
-      svg.selectAll('*').remove()
-
-      drawChart(availableWidth, availableHeight, radius)
-    }, 300)
-
-    const drawChart = (chartWidth: number, chartHeight: number, radius: number) => {
+  const drawChart = useCallback(
+    (chartWidth: number, chartHeight: number, radius: number) => {
+      const svg = d3.select(ref.current)
+      const margin = { top: 20, right: 20, bottom: 80, left: 20 }
+      const colors = [
+        '#0f7fd0',
+        '#ff7f0e',
+        '#2ca02c',
+        '#d62728',
+        '#9467bd',
+        '#8c564b',
+        '#e377c2',
+        '#7f7f7f',
+        '#dfd000',
+        '#17becf',
+      ]
       const levels = 5
       const angleSlice = (Math.PI * 2) / filterGameTypes(selectedGameTypes).length
       const maxValue = 100
@@ -136,11 +122,12 @@ const DataRadar = () => {
       dataValues.forEach((dataSet, index) => {
         g.append('path')
           .datum(dataSet)
-          .attr('class', 'radarStroke')
+          .attr('class', `radarArea radarArea-${index}`)
           .attr('d', radarLine)
+          .style('fill', colors[index % colors.length])
+          .style('fill-opacity', 0.1)
           .style('stroke-width', '2px')
           .style('stroke', colors[index % colors.length])
-          .style('fill', 'none')
 
         g.selectAll(`.radarCircle-${index}`)
           .data(dataSet)
@@ -164,7 +151,7 @@ const DataRadar = () => {
           'transform',
           deviceType === 'desktop'
             ? 'translate(48, 80)'
-            : deviceType === 'isMinorMobile'
+            : deviceType === 'mobile' && isMinorMobile
             ? 'translate(0, 0)'
             : 'translate(0, 65)',
         )
@@ -172,33 +159,60 @@ const DataRadar = () => {
       const legendItems = matchData.map((match, index) => ({
         color: colors[index % colors.length],
         label: match.date,
+        index,
       }))
 
       legendItems.forEach((item, i) => {
-        legend
+        const legendGroup = legend
+          .append('g')
+          .attr('transform', `translate(0, ${i * (legendRectSize + legendSpacing)})`)
+          .attr('class', `legend-item legend-item-${item.index}`)
+          .on('mouseover', function () {
+            d3.select(`.radarArea-${item.index}`).style('fill-opacity', 0.5).raise()
+          })
+          .on('mouseout', function () {
+            d3.select(`.radarArea-${item.index}`).style('fill-opacity', 0.1)
+          })
+
+        legendGroup
           .append('rect')
           .attr('x', 0)
-          .attr('y', i * (legendRectSize + legendSpacing))
+          .attr('y', 0)
           .attr('width', legendRectSize)
           .attr('height', legendRectSize)
           .style('fill', item.color)
 
-        legend
+        legendGroup
           .append('text')
           .attr('x', legendRectSize + legendSpacing)
-          .attr('y', i * (legendRectSize + legendSpacing) + legendRectSize / 1.5)
+          .attr('y', legendRectSize / 1.5)
           .text(item.label)
           .style('font-size', '14px')
           .attr('text-anchor', 'start')
       })
-    }
+    },
+    [dataValues, selectedGameTypes, deviceType, isMinorMobile],
+  )
+
+  useEffect(() => {
+    const resize = debounce(() => {
+      const availableWidth = width - 32
+      const availableHeight = height - 32
+      const chartSize = Math.min(availableWidth, availableHeight)
+      const radius = chartSize / 2.5
+
+      d3.select(ref.current).selectAll('*').remove()
+      drawChart(availableWidth, availableHeight, radius)
+    }, 300)
 
     resize()
 
+    window.addEventListener('resize', resize)
     return () => {
+      window.removeEventListener('resize', resize)
       resize.cancel()
     }
-  }, [width, height, selectedGameTypes, dataValues, deviceType])
+  }, [width, height, drawChart])
 
   return (
     <RadialChartContainer>
