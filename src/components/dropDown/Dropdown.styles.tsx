@@ -65,7 +65,6 @@ export const CheckboxContainer = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
-  /* color: #333743; */
 `
 
 export const Checkbox = styled.input`

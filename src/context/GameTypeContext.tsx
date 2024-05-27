@@ -20,7 +20,6 @@ export const GameTypeProvider = ({ children }: Props) => {
   const [selectedGameTypes, setSelectedGameTypes] = useState<string[]>([])
 
   useEffect(() => {
-    // const allKeys = Object.keys(matchData[0]).filter(key => key !== 'date')
     const allKeys = getMatchDataCategories(matchData)
     setSelectedGameTypes(allKeys)
   }, [])
