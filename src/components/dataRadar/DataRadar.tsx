@@ -11,8 +11,6 @@ const DataRadar = () => {
   const ref = useRef<SVGSVGElement>(null)
   const { selectedGameTypes } = useGameType()
   const { width, height, deviceType } = useWindowSize()
-  // const isMinorMobile = width <= 375 && width > 344
-  // const isDesktop = width >= 768
 
   const maxValues = useMemo(() => {
     return {
