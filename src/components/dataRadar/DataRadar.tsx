@@ -12,6 +12,8 @@ const DataRadar = () => {
   const { selectedGameTypes } = useGameType()
   const { width, height, deviceType, isMinorMobile } = useWindowSize()
 
+  const filteredGameTypes = useMemo(() => filterGameTypes(selectedGameTypes), [selectedGameTypes])
+
   const maxValues = useMemo(() => {
     return {
       maxAttacks: Math.max(...matchData.map(d => d.attacks)),
@@ -23,17 +25,31 @@ const DataRadar = () => {
     }
   }, [])
 
+
   const dataValues = useMemo(() => {
-    return matchData.map(d => [
-      (d.attacks / maxValues.maxAttacks) * 100,
-      (d.defense / maxValues.maxDefense) * 100,
-      (d.conceded / maxValues.maxConceded) * 100,
-      (d.scored / maxValues.maxScored) * 100,
-      (d.corners / maxValues.maxCorners) * 100,
-      (d.freeKicks / maxValues.maxFreeKicks) * 100,
-      d.possession,
-    ])
-  }, [maxValues])
+    return matchData.map(d =>
+      filteredGameTypes.map(type => {
+        switch (type) {
+          case 'attacks':
+            return (d.attacks / maxValues.maxAttacks) * 100
+          case 'defense':
+            return (d.defense / maxValues.maxDefense) * 100
+          case 'conceded':
+            return (d.conceded / maxValues.maxConceded) * 100
+          case 'scored':
+            return (d.scored / maxValues.maxScored) * 100
+          case 'corners':
+            return (d.corners / maxValues.maxCorners) * 100
+          case 'freeKicks':
+            return (d.freeKicks / maxValues.maxFreeKicks) * 100
+          case 'possession':
+            return d.possession
+          default:
+            return 0
+        }
+      }),
+    )
+  }, [maxValues, filteredGameTypes])
 
   const drawChart = useCallback(
     (chartWidth: number, chartHeight: number, radius: number) => {
@@ -52,7 +68,7 @@ const DataRadar = () => {
         '#17becf',
       ]
       const levels = 5
-      const angleSlice = (Math.PI * 2) / filterGameTypes(selectedGameTypes).length
+      const angleSlice = (Math.PI * 2) / filteredGameTypes.length
       const maxValue = 100
 
       const radarLine = d3
@@ -94,7 +110,7 @@ const DataRadar = () => {
       // Axes
       const axis = g
         .selectAll('.axis')
-        .data(selectedGameTypes.filter(key => key !== 'Select all'))
+        .data(filteredGameTypes)
         .enter()
         .append('g')
         .attr('class', 'axis')
@@ -192,7 +208,7 @@ const DataRadar = () => {
           .attr('text-anchor', 'start')
       })
     },
-    [dataValues, selectedGameTypes, deviceType, isMinorMobile],
+    [dataValues, deviceType, isMinorMobile, filteredGameTypes],
   )
 
   useEffect(() => {
